@@ -6,13 +6,14 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import static java.lang.Thread.getAllStackTraces;
 import static java.lang.Thread.sleep;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         int clientsCount = 10;
 
-        Waiter waiter = new Waiter();
+        Waiter waiter = new Waiter(clientsCount);
         ArrayList<Thread> customersThread = new ArrayList<>();
 
         //creating
@@ -33,28 +34,63 @@ public class Main {
 }
 
 class Waiter {
-    private int tableCount;
-    private Table table = new Table();
-
+    private int pairIdWithTable;
+    private boolean tableIsFree = true;
     private final Lock lock = new ReentrantLock();
-    private final Condition condition = lock.newCondition();
+    private ArrayList<Condition> pairCondition = new ArrayList<>();
+    private Condition tableCondition = lock.newCondition();
+    private int[] pairReservationState;
 
-    public void getTable() {
+    Waiter(int clientsCount) {
+        int pairCount = clientsCount / 2;
+        for(int i = 0; i < pairCount; i++) {
+            pairCondition.add(lock.newCondition());
+        }
+        pairReservationState = new int[pairCount];
+    }
 
+    public void getTable(int pairId) {
+        lock.lock();
+        try {
+            while(!tableIsFree) {
+                tableCondition.await();
+            }
+
+            pairReservationState[pairId]++;
+            pairCondition.get(pairId).signal();
+
+            while(pairReservationState[pairId] != 2) {
+                pairCondition.get(pairId).await();
+            }
+            pairIdWithTable = pairId;
+            tableIsFree = false;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
     }
 
     public void releaseTable() {
-
+        lock.lock();
+        pairReservationState[pairIdWithTable]--;
+        if(pairReservationState[pairIdWithTable] == 0) {
+            tableIsFree = true;
+            tableCondition.signalAll();
+        }
+        lock.unlock();
     }
 }
 
 class Client implements Runnable {
     private int clientId;
+    private int pairId;
     private Random random = new Random();
     private Waiter waiter;
 
     Client(Waiter waiter, int clientId) {
         this.clientId = clientId;
+        this.pairId = clientId / 2;
         this.waiter = waiter;
     }
 
@@ -63,53 +99,22 @@ class Client implements Runnable {
         while(true) {
             try {
                 //do somethings
-                sleep(random.nextInt() % 1000 + 1);
+                sleep(random.nextInt(5000));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("Client (" + clientId + ") want table.");
-            waiter.getTable();
+            System.out.println("Client (" + clientId + ", " + pairId + ") want table.");
+            waiter.getTable(pairId);
             try {
                 //eat
-                System.out.println("Client (" + clientId + ") start eating.");
-                sleep(random.nextInt() % 1000 + 1);
-                System.out.println("Client (" + clientId + ") end eating.");
+                System.out.println("Client (" + clientId + ", " + pairId + ") start eating.");
+                sleep(random.nextInt(5000));
+                System.out.println("Client (" + clientId + ", " + pairId + ") end eating.");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            System.out.println("Client (" + clientId + ", " + pairId + ") release table.");
             waiter.releaseTable();
-            System.out.println("Client (" + clientId + ") release table.");
         }
-    }
-}
-
-class Table {
-    private int freePlace = 2;
-
-    public void getPlace() throws Exception {
-        if(freePlace > 0) {
-            freePlace--;
-        }
-        else {
-            throw new Exception("Table is full.");
-        }
-    }
-
-    public void releasePlace() throws Exception {
-        if(freePlace < 2) {
-            freePlace++;
-        }
-        else {
-            throw new Exception("Table has only 2 free place.");
-        }
-    }
-
-    public boolean isFree() {
-        if(freePlace > 0) return true;
-        return false;
-    }
-
-    public int getFreePlace() {
-        return freePlace;
     }
 }
