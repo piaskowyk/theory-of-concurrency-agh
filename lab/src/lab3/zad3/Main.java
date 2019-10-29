@@ -52,18 +52,23 @@ class Waiter {
     public void getTable(int pairId) {
         lock.lock();
         try {
-            while(!tableIsFree) {
-                tableCondition.await();
-            }
-
             pairReservationState[pairId]++;
-            pairCondition.get(pairId).signal();
 
-            while(pairReservationState[pairId] != 2) {
-                pairCondition.get(pairId).await();
+            if(pairReservationState[pairId] != 2) {
+                while(pairReservationState[pairId] != 2) {
+                    pairCondition.get(pairId).await();
+                }
             }
-            pairIdWithTable = pairId;
-            tableIsFree = false;
+            else {
+                while(!tableIsFree) {
+                    tableCondition.await();
+                }
+                pairIdWithTable = pairId;
+                tableIsFree = false;
+
+                pairCondition.get(pairId).signal();
+            }
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
@@ -76,6 +81,7 @@ class Waiter {
         pairReservationState[pairIdWithTable]--;
         if(pairReservationState[pairIdWithTable] == 0) {
             tableIsFree = true;
+            pairIdWithTable = -1;
             tableCondition.signalAll();
         }
         lock.unlock();
