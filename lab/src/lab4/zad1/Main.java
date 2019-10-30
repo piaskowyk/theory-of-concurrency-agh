@@ -2,12 +2,15 @@ package lab4.zad1;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         int processorCount = 3;
 
-        Line line = new Line(10);
+        Line line = new Line(10, processorCount);
 
         //creating
         Thread producer = new Thread(new Producer(line));
@@ -82,26 +85,84 @@ class Line {
     private int producerIndex = 0;
     private int consumerIndex = 0;
     private int[] processorIndex;
+    private int processorCount;
 
-    Line(int lineSize) {
+    private List<Lock> cellLock = new ArrayList<>();
+    private List<Condition> cellCondition = new ArrayList<>();
+
+    Line(int lineSize, int processorCount) {
         this.lineSize = lineSize;
         line = new int[lineSize];
         for(int i = 0; i < lineSize; i++) {
             line[i] = -1;
+            cellLock.add(new ReentrantLock());
+            cellCondition.add(cellLock.get(i).newCondition());
         }
-
-        processorIndex = new int[lineSize];
+        this.processorCount = processorCount;
+        processorIndex = new int[processorCount];
     }
 
-    public void produce() {
-
+    void produce() {
+        cellLock.get(producerIndex).lock();
+        try {
+            while(line[producerIndex] != -1) {
+                cellCondition.get(producerIndex).await();
+            }
+            line[producerIndex] = 0;
+            cellCondition.get(producerIndex).signalAll();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            int lastIndex = producerIndex;
+            incrementProduceIndex();
+            cellLock.get(lastIndex).unlock();
+        }
     }
 
-    public void process(int processorId) {
-
+    void process(int processorId) {
+        int currentProcessorIndex = processorIndex[processorId];
+        cellLock.get(currentProcessorIndex).lock();
+        try {
+            while(line[currentProcessorIndex] != processorId) {
+                cellCondition.get(currentProcessorIndex).await();
+            }
+            line[currentProcessorIndex] = processorId + 1;
+            cellCondition.get(currentProcessorIndex).signalAll();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            int lastIndex = currentProcessorIndex;
+            incrementProcessorIndex(processorId);
+            cellLock.get(lastIndex).unlock();
+        }
     }
 
-    public void consume() {
+    void consume() {
+        cellLock.get(consumerIndex).lock();
+        try {
+            while(line[consumerIndex] != processorCount) {
+                cellCondition.get(consumerIndex).await();
+            }
+            line[consumerIndex] = -1;
+            cellCondition.get(consumerIndex).signalAll();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            int lastIndex = consumerIndex;
+            incrementConsumerIndex();
+            cellLock.get(lastIndex).unlock();
+        }
+    }
 
+    private void incrementProduceIndex() {
+        producerIndex = (producerIndex + 1) % lineSize;
+    }
+
+    private void incrementConsumerIndex() {
+        consumerIndex = (consumerIndex + 1) % lineSize;
+    }
+
+    private void incrementProcessorIndex(int processorId) {
+        processorIndex[processorId] = (processorIndex[processorId] + 1) % lineSize;
     }
 }
