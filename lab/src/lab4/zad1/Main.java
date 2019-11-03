@@ -62,7 +62,9 @@ class Processor implements Runnable {
 
     @Override
     public void run() {
-        line.process(this.processorId);
+        while(true) {
+            line.process(this.processorId);
+        }
     }
 }
 
@@ -75,7 +77,9 @@ class Consumer implements Runnable {
 
     @Override
     public void run() {
-        line.consume();
+        while(true) {
+            line.consume();
+        }
     }
 }
 
@@ -109,6 +113,8 @@ class Line {
                 cellCondition.get(producerIndex).await();
             }
             line[producerIndex] = 0;
+            System.out.println("L[" + line[producerIndex] + "], Produce at: " + producerIndex);
+//            printLine();
             cellCondition.get(producerIndex).signalAll();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -127,6 +133,8 @@ class Line {
                 cellCondition.get(currentProcessorIndex).await();
             }
             line[currentProcessorIndex] = processorId + 1;
+            System.out.println("L[" + line[currentProcessorIndex] + "], Processor (" + (processorId + 1) + ") at: " + currentProcessorIndex);
+//            printLine();
             cellCondition.get(currentProcessorIndex).signalAll();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -144,6 +152,8 @@ class Line {
                 cellCondition.get(consumerIndex).await();
             }
             line[consumerIndex] = -1;
+            System.out.println("L[" + line[consumerIndex] + "], Consume at: " + consumerIndex);
+//            printLine();
             cellCondition.get(consumerIndex).signalAll();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -164,5 +174,18 @@ class Line {
 
     private void incrementProcessorIndex(int processorId) {
         processorIndex[processorId] = (processorIndex[processorId] + 1) % lineSize;
+    }
+
+    private void printLine() {
+        System.out.print("|");
+        for(int item : line) {
+            if(item >= 0) {
+                System.out.print(" " + item + "|");
+            }
+            else {
+                System.out.print(item + "|");
+            }
+        }
+        System.out.println();
     }
 }
