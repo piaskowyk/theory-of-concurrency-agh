@@ -4,6 +4,8 @@ import os
 measurement_files = os.listdir("./data/")
 
 for file_name in measurement_files:
+    if file_name == 'summary':
+        continue
     file = open("./data/" + file_name, "r")
     content = file.readlines()
 

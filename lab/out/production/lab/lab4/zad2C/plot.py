@@ -13,7 +13,6 @@ for file_name in measurement_files:
     plotX = []
     plotY = []
 
-    print(file_name)
     for line in content:
         data = line.split(" ")
         plotX.append(int(data[0]))
