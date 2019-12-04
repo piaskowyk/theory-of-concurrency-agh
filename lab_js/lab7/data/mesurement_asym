@@ -1,0 +1,7 @@
+Asymetric algorythm: 
+N: 5, waiting: 3540 ms, avg: 708 ms
+N: 10, waiting: 8228 ms, avg: 822.8 ms
+N: 15, waiting: 11288 ms, avg: 752.5333333333333 ms
+N: 20, waiting: 17342 ms, avg: 867.1 ms
+N: 25, waiting: 20154 ms, avg: 806.16 ms
+N: 30, waiting: 23634 ms, avg: 787.8 ms

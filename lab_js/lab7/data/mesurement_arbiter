@@ -1,0 +1,7 @@
+Arbiter algorythm: 
+N: 5, waiting: 24057 ms, avg: 4811.4 ms
+N: 10, waiting: 69114 ms, avg: 6911.4 ms
+N: 15, waiting: 154211 ms, avg: 10280.733333333334 ms
+N: 20, waiting: 232852 ms, avg: 11642.6 ms
+N: 25, waiting: 370317 ms, avg: 14812.68 ms
+N: 30, waiting: 631361 ms, avg: 21045.366666666665 ms
