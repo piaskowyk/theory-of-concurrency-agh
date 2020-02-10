@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="default"
+		module="tw2019webcrawler_2.13"
+		revision="1.0"
+		conf="runtime"
+		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, pom, scala-tool"
+		date="20200113103834"/>
+	<dependencies>
+		<module organisation="net.sourceforge.htmlcleaner" name="htmlcleaner">
+			<revision name="2.23" status="release" pubdate="20190904215055" resolver="public" artresolver="public" homepage="http://htmlcleaner.sourceforge.net/" downloaded="true" searched="true" default="false" conf="default, compile, runtime, default(compile), master" position="1">
+				<license name="BSD License" url="http://www.opensource.org/licenses/bsd-license.php"/>
+				<metadata-artifact status="successful" details="" size="8348" time="128" location="/home/mleko/.ivy2/cache/net.sourceforge.htmlcleaner/htmlcleaner/ivy-2.23.xml" searched="true" original-local-location="/home/mleko/.ivy2/cache/net.sourceforge.htmlcleaner/htmlcleaner/ivy-2.23.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/net/sourceforge/htmlcleaner/htmlcleaner/2.23/htmlcleaner-2.23.pom"/>
+				<caller organisation="default" name="tw2019webcrawler_2.13" conf="compile, runtime" rev="2.23" rev-constraint-default="2.23" rev-constraint-dynamic="2.23" callerrev="1.0"/>
+				<artifacts>
+					<artifact name="htmlcleaner" type="bundle" ext="jar" status="successful" details="" size="163851" time="344" location="/home/mleko/.ivy2/cache/net.sourceforge.htmlcleaner/htmlcleaner/bundles/htmlcleaner-2.23.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/net/sourceforge/htmlcleaner/htmlcleaner/2.23/htmlcleaner-2.23.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.jdom" name="jdom2">
+			<revision name="2.0.5" status="release" pubdate="20130428233558" resolver="public" artresolver="public" homepage="http://www.jdom.org" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="2">
+				<license name="Similar to Apache License but with the acknowledgment clause removed" url="https://raw.github.com/hunterhacker/jdom/master/LICENSE.txt"/>
+				<metadata-artifact status="successful" details="" size="4598" time="167" location="/home/mleko/.ivy2/cache/org.jdom/jdom2/ivy-2.0.5.xml" searched="true" original-local-location="/home/mleko/.ivy2/cache/org.jdom/jdom2/ivy-2.0.5.xml.original" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/jdom/jdom2/2.0.5/jdom2-2.0.5.pom"/>
+				<caller organisation="net.sourceforge.htmlcleaner" name="htmlcleaner" conf="default, compile, runtime, master" rev="2.0.5" rev-constraint-default="2.0.5" rev-constraint-dynamic="2.0.5" callerrev="2.23"/>
+				<artifacts>
+					<artifact name="jdom2" type="jar" ext="jar" status="successful" details="" size="299658" time="279" location="/home/mleko/.ivy2/cache/org.jdom/jdom2/jars/jdom2-2.0.5.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/jdom/jdom2/2.0.5/jdom2-2.0.5.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+		<module organisation="org.scala-lang" name="scala-library">
+			<revision name="2.13.1" status="release" pubdate="20190918105936" resolver="sbt-chain" artresolver="sbt-chain" homepage="https://www.scala-lang.org/" extra-info.apiURL="https://www.scala-lang.org/api/2.13.1/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="0">
+				<license name="Apache-2.0" url="https://www.apache.org/licenses/LICENSE-2.0"/>
+				<metadata-artifact status="no" details="" size="2659" time="0" location="/home/mleko/.ivy2/cache/org.scala-lang/scala-library/ivy-2.13.1.xml" searched="false" origin-is-local="false" origin-location="https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.1/scala-library-2.13.1.pom"/>
+				<caller organisation="default" name="tw2019webcrawler_2.13" conf="compile, runtime" rev="2.13.1" rev-constraint-default="2.13.1" rev-constraint-dynamic="2.13.1" callerrev="1.0"/>
+				<artifacts>
+					<artifact name="scala-library" type="jar" ext="jar" status="no" details="" size="5721063" time="0" location="/home/mleko/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.13.1.jar">
+						<origin-location is-local="false" location="https://repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.1/scala-library-2.13.1.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

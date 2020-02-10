@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id="labtwscalatutorial [file:/media/DATA/studia/TW/lab_scala/TW2019-master/labTWScalaTutorial/]" external.linked.project.path="/media/DATA/studia/TW/lab_scala/TW2019-master/labTWScalaTutorial" external.root.project.path="$MODULE_DIR$/../.." external.system.id="SBT" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+    <output url="file:///media/DATA/studia/TW/lab_scala/TW2019-master/labTWScalaTutorial/target/scala-2.13/classes" />
+    <output-test url="file:///media/DATA/studia/TW/lab_scala/TW2019-master/labTWScalaTutorial/target/scala-2.13/test-classes" />
+    <exclude-output />
+    <content url="file:///media/DATA/studia/TW/lab_scala/TW2019-master/labTWScalaTutorial">
+      <sourceFolder url="file:///media/DATA/studia/TW/lab_scala/TW2019-master/labTWScalaTutorial/src/main/scala" isTestSource="false" />
+      <excludeFolder url="file:///media/DATA/studia/TW/lab_scala/TW2019-master/labTWScalaTutorial/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="sbt: org.scala-lang:scala-library:2.13.1:jar" level="project" />
+  </component>
+</module>

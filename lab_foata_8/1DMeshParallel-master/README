@@ -1,0 +1,6 @@
+This is a JAVA Maven project.
+
+It is intended to be used by students on their classes for Trace Theory.
+This is a simple implementation of runner, thats starts a group of threads at the same time, than waits for them to finish. Next it goes to another group of threads.
+
+For noncomercial use only.

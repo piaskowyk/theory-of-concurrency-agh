@@ -1,0 +1,27 @@
+1 Thread
+threadPool: 1 taskCount: 1 avg: 0.0040610464s std: 0.007897618768338612s
+
+1 Thread
+threadPool: 1 taskCount: 10 avg: 0.0042228416s std: 1.8191640433726697E-4s
+
+1 Thread
+threadPool: 1 taskCount: 480000 avg: 0.23117374440000002s std: 0.03978630685732705s
+
+12 Thread
+threadPool: 12 taskCount: 12 avg: 0.0032503956s std: 0.001732659210269521s
+
+12 Thread
+threadPool: 12 taskCount: 120 avg: 0.0045834316s std: 0.0024063441679636976s
+
+12 Thread
+threadPool: 12 taskCount: 480000 avg: 0.2404493864s std: 0.03612090755235407s
+
+24 Thread
+threadPool: 24 taskCount: 24 avg: 0.007596568s std: 0.01567231092202676s
+
+24 Thread
+threadPool: 24 taskCount: 240 avg: 0.0030672767999999997s std: 7.38020332146615E-4s
+
+24 Thread
+threadPool: 24 taskCount: 480000 avg: 0.23311627969999998s std: 0.03124880077053576s
+
